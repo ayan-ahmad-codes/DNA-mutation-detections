@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DNA Sequence Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="page">
+
+    <!-- LEFT INFO PANEL -->
+    <aside class="info-panel left">
+        <h2>🧬 Alignment Score</h2>
+        <p>
+            Alignment score shows how similar two DNA sequences are.
+        </p>
+        <ul>
+            <li><b>High score</b> → sequences are very similar</li>
+            <li><b>Low score</b> → sequences differ a lot</li>
+        </ul>
+        <p>
+            The score depends on matches, mismatches, and gaps.
+        </p>
+        <p class="note">
+            ✔ Used in bioinformatics to compare genes.
+        </p>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="content">
+        <h1>DNA Sequence Analyzer</h1>
+
+        <form method="POST" enctype="multipart/form-data">
+            <textarea name="dna" placeholder="Paste reference DNA sequence (1500+ base pairs supported)"></textarea>
+
+            <input type="file" name="fasta">
+
+            <textarea name="pattern" placeholder="Enter query DNA / gene sequence"></textarea>
+
+            <button type="submit">Analyze DNA</button>
+        </form>
+
+        {% if result %}
+        <div class="results">
+            <p><b>KMP Matches:</b> {{ result.kmp }}</p>
+            <p><b>Suffix Array Matches:</b> {{ result.suffix }}</p>
+            <p><b>Alignment Score:</b> {{ result.score }}</p>
+            <p><b>Total Mutation Points:</b> {{ result.mut_count }}</p>
+            <p><b>Mutation Probability:</b> {{ result.prob }}%</p>
+
+
+            <img src="data:image/png;base64,{{ img }}">
+        </div>
+        {% endif %}
+    </main>
+
+    <!-- RIGHT INFO PANEL -->
+    <aside class="info-panel right">
+        <h2>🧪 Mutation Risk</h2>
+        <p>
+            A mutation is a change in DNA that may affect genes.
+        </p>
+        <ul>
+            <li><b>Low risk</b> → few changes</li>
+            <li><b>High risk</b> → many changes</li>
+        </ul>
+
+        <h3>📊 Graph Meaning</h3>
+        <p>
+            Each spike shows a mutation position in the DNA.
+        </p>
+        <p class="note">
+            ✔ Helps visualize where DNA differs.
+        </p>
+    </aside>
+
+</div>
+
+</body>
+</html>
